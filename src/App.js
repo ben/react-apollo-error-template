@@ -3,7 +3,7 @@ import { gql, graphql } from 'react-apollo';
 
 class App extends Component {
   render() {
-    const { data: { loading, people } } = this.props;
+    const { data: { loading, allTrainers } } = this.props;
     return (
       <main>
         <header>
@@ -23,13 +23,7 @@ class App extends Component {
         {loading ? (
           <p>Loading…</p>
         ) : (
-          <ul>
-            {people.map(person => (
-              <li key={person.id}>
-                {person.name}
-              </li>
-            ))}
-          </ul>
+          <pre><code>{JSON.stringify(allTrainers, null, 2)}</code></pre>
         )}
       </main>
     );
@@ -37,10 +31,12 @@ class App extends Component {
 }
 
 export default graphql(
-  gql`{
-    people {
-      id
-      name
-    }
+  gql`query abc {
+    allTrainers @connection(key: "abc") { name }
   }`,
+  {
+    options: props => ({
+
+    })
+  }
 )(App)
